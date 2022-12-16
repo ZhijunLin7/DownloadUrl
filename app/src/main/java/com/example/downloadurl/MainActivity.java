@@ -27,6 +27,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -97,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
     private String downloadUrl(String myurl) throws IOException {
         InputStream is = null;
 
-
-
         try {
             URL url = new URL(myurl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     public String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
         Reader reader = null;
         reader = new InputStreamReader(stream, "UTF-8");
@@ -129,7 +130,33 @@ public class MainActivity extends AppCompatActivity {
             result+= String.valueOf((char)data);
             data = reader.read();
         }
+        String resultsintag = limpiarTag(result);
 
-        return result;
+        return resultsintag;
+    }
+
+    public String limpiarTag(String stringSucio){
+        String regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+        String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+        String regEx_html = "<[^>]+>";
+        String regEx_space = "\t|\r|\n";
+
+        Pattern p_script = Pattern.compile(regEx_script, Pattern.CASE_INSENSITIVE);
+        Matcher m_script = p_script.matcher(stringSucio);
+        stringSucio = m_script.replaceAll("");
+
+        Pattern p_style = Pattern.compile(regEx_style, Pattern.CASE_INSENSITIVE);
+        Matcher m_style = p_style.matcher(stringSucio);
+        stringSucio = m_style.replaceAll("");
+
+        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+        Matcher m_html = p_html.matcher(stringSucio);
+        stringSucio = m_html.replaceAll("");
+
+        Pattern p_space = Pattern.compile(regEx_space, Pattern.CASE_INSENSITIVE);
+        Matcher m_space = p_space.matcher(stringSucio);
+        stringSucio = m_space.replaceAll("");
+
+        return stringSucio;
     }
 }
