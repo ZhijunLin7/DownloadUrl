@@ -21,6 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:minHeight="48dp"
         android:text="https://"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"
@@ -36,13 +37,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextUrl" />
 
-    <TextView
-        android:layout_width="fill_parent"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonDescargar" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonDescargar">
+
+        <TextView
+            android:id="@+id/textresult"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:text="resultado es:" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
